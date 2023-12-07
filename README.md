@@ -1,46 +1,25 @@
-# Getting Started with Create React App
+# Notes with tags
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### [Open Demo](https://ivashin.vercel.app/)
 
-## Available Scripts
+## Функционал
+ - [X] Создание, редактирование, удаление заметок
+ - [X] Просмотр списка заметок
+ - [X] Возможность использования тегов
+ - [X] Фильтр по тегам
+ - [X] Хранение данных в <code>IndexDB</code>
+ - [ ] Добавить Snackbar событий
+ - [ ] Добавить темную тему
 
-In the project directory, you can run:
+## Технологии
+- React
+- Typescript
+- Redux
+- MUI
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Скриншоты
+![Desktop](https://downloader.disk.yandex.ru/preview/6b842bb7c2be3d2629aa828c3d87f65d15fb231188e80fe7fdff5e5b1b1d6046/6571d718/yXhLS7lfiknE4CBTCyLu7d53aFWbbFtyJrmzliBsWneqvvns0nHLDQqAn_Lxr4mLQV7KlrYmvoXzqY5oGldVRA%3D%3D?uid=0&filename=2023-12-07_13-26-55.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=2048x2048)
+![Desktop](https://downloader.disk.yandex.ru/preview/3cb9fc7bee5f05cc0b313db1e0f7956b85213ddbfb1294bee1ad35387bacd438/6571d7e1/1XSS6--oUswjTLizG8cnMsm7f7Bg0USXv6ktiUvDrNnVFvGkQ0t4u6Eh40ysHsvtIb-Z0JK7XkkmCoTn-eAMBg%3D%3D?uid=0&filename=2023-12-07_13-27-21.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=2048x2048)
+![Desktop](https://downloader.disk.yandex.ru/preview/4dd8d8f0471947a235dc35fbbd1faaddf311008838aa8f8ab602096879d1a330/6571d82a/7Q5j4cjQ7CYTpPSQtkf4MtbBHDhXLQqlLQmVUWF2U0Lc64QHScQN9dU_-zAfHAzVbouKYp13qhGWrAIiqKl3-g%3D%3D?uid=0&filename=2023-12-07_13-28-28.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=2048x2048)
+![Desktop](https://downloader.disk.yandex.ru/preview/0a13ae7a175a20c030703e4aa43e990fb8edeb6e570776a06b6df0a79f494a2f/6571d85c/EC3_Y5yX_NTx62L3nthfYOg7YfrZ2_Ad5hRKlc5pZdbS9CU1LEaKe6Adnu1iWX2m1JsZ3wxzXjWCjC7pqPgkJg%3D%3D?uid=0&filename=2023-12-07_13-28-40.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=2048x2048)
+![Desktop](https://downloader.disk.yandex.ru/preview/d0991c9217e582cf771aa90ef3915e0b96a055108cb561da9807531d3f0a6d4f/6571d894/VxqqXck_fBacdAr3fg3RgpeR-N8GEsmWS-Rw3QVdatJrxk3i6fpqe1lpfpWOWrkwA1OHMHWvJelTF00Wo4Inbg%3D%3D?uid=0&filename=2023-12-07_13-29-31.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=2048x2048)

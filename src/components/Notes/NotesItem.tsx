@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import { Note } from "../../models/Note";
+import {
+  updateNote,
+  deleteNote,
+  updateSnackbar,
+} from "../../features/notes/NotesSlice";
 import { highlightTags } from "../../utils/highlightTags";
-import { updateNote, deleteNote } from "../../features/notes/NotesSlice";
+
+import { Note } from "../../models/Note";
 import { Tag } from "../../models/Tag";
 
 interface NotesItemProps {
@@ -18,6 +23,8 @@ export default function NotesItem({ item }: NotesItemProps) {
   const [tags, setTags] = useState<Tag[]>();
   const [text, setText] = useState("");
 
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+
   const handleChange = (event: ContentEditableEvent) => {
     const value = event.target.value;
 
@@ -25,11 +32,21 @@ export default function NotesItem({ item }: NotesItemProps) {
 
     setTags(tags);
     setText(highlightHtml);
-    dispatch(updateNote({ ...item, text: highlightHtml, tags }));
+
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      dispatch(updateNote({ ...item, text: highlightHtml, tags }));
+      dispatch(
+        updateSnackbar({ isOpen: true, message: "Заметка успешно обновлена!" })
+      );
+    }, 1000);
   };
 
   const handleDeleteNote = () => {
     dispatch(deleteNote(item));
+    dispatch(
+      updateSnackbar({ isOpen: true, message: "Заметка успешно удалена!" })
+    );
   };
 
   return (

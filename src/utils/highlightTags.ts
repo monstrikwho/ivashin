@@ -23,7 +23,6 @@ export const parseTags = (text: string) => {
   const tags: Tag[] = matches.map((item) => ({
     name: item,
     count: 1,
-    isActive: false,
     color: "primary",
   }));
   return tags;

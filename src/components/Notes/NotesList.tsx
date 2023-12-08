@@ -27,10 +27,6 @@ export default function NotesList() {
       })
     : list;
 
-  // const sorted = filteredList.sort(
-  //   (a, b) => a.createdAt.getTime() - b.createdAt.getTime()
-  // );
-
   return (
     <>
       {filteredList.map((item, key) => (

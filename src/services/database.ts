@@ -1,21 +1,16 @@
 import Dexie, { Table } from "dexie";
-import { Tag } from "../models/Tag";
-import { Note } from "../models/Note";
-
-interface IActiveTags {
-  name: string;
-}
+import { Note, Tag, ActiveTag } from "../models";
 
 class DatabaseService extends Dexie {
   notes!: Table<Note>;
   tags!: Table<Tag>;
-  activeTags!: Table<IActiveTags>;
+  activeTags!: Table<ActiveTag>;
 
   constructor() {
     super("Database");
     this.version(1).stores({
       notes: "id, tags, text, createdAt",
-      tags: "name, count, isActive, color",
+      tags: "name, count, color",
       activeTags: "name",
     });
   }
@@ -31,49 +26,49 @@ const addDBNotes = (note: Note) => {
   db.notes.add(note);
 };
 
-const updateDBNotes = async (note: Note, stateTags: Tag[]) => {
-  // const noteDB = await db.notes.get(note.id);
-  // if (noteDB) {
-  //   noteDB.tags = note.tags;
-  //   noteDB.text = note.text;
-  //   db.notes.put(noteDB);
-  // }
-  // console.log(stateTags);
-  // console.log(note.tags);
-  // for (let tag of stateTags) {
-  //   const item = stateTags.find((value) => value.name === tag.name);
-  //   if (item) {
-  //     if (item.count === 1) {
-  //       await deleteDBTags(tag);
-  //     } else {
-  //       await updateDBTags(tag);
-  //     }
-  //   }
-  // }
-  // for (let tag of note.tags) {
-  //   await addDBTags(tag);
-  // }
-  // Обновить активные теги в ДБ
+const updateDBNotes = async (note: Note, latestTags: Tag[]) => {
+  const noteDB = await db.notes.get(note.id);
+  const tagsDB = await getDBTags();
+
+  if (noteDB) {
+    noteDB.tags = note.tags;
+    noteDB.text = note.text;
+    db.notes.put(noteDB);
+  }
+
+  for (let tag of latestTags) {
+    const status = tagsDB.find((value) => value.name === tag.name);
+    if (status) {
+      if (status.count === 1) {
+        deleteDBTags(tag);
+      } else {
+        updateDBTags(tag);
+      }
+    }
+  }
+
+  for (let tag of note.tags) {
+    addDBTags(tag);
+  }
 };
 
 const deleteDBNotes = async (noteId: string) => {
-  await db.notes.delete(noteId);
+  db.notes.delete(noteId);
 };
 
 const getDBActiveTags = async () => {
   return await db.activeTags.toArray();
 };
 
-const updateDBActiveTags = async (tagName: string) => {
+const addDBActiveTags = (tagName: string) => {
+  db.activeTags.add({ name: tagName });
+};
+
+const deleteDBActiveTags = async (tagName: string) => {
   const tag = await db.activeTags.get(tagName);
-
   if (tag) {
-    await db.activeTags.delete(tagName);
-  } else {
-    db.activeTags.add({ name: tagName });
+    db.activeTags.delete(tagName);
   }
-
-  return await db.activeTags.toArray();
 };
 
 const getDBTags = async () => {
@@ -84,9 +79,9 @@ const addDBTags = async (tag: Tag) => {
   const dbTag = await db.tags.get(tag.name);
   if (dbTag) {
     dbTag.count++;
-    await db.tags.put(dbTag);
+    db.tags.put(dbTag);
   } else {
-    await db.tags.add(tag);
+    db.tags.add(tag);
   }
 };
 
@@ -94,7 +89,7 @@ const updateDBTags = async (tag: Tag) => {
   const dbTag = await db.tags.get(tag.name);
   if (dbTag) {
     dbTag.count--;
-    await db.tags.put(dbTag);
+    db.tags.put(dbTag);
   }
 };
 
@@ -118,7 +113,8 @@ export {
   updateDBNotes,
   deleteDBNotes,
   getDBActiveTags,
-  updateDBActiveTags,
+  addDBActiveTags,
+  deleteDBActiveTags,
   getDBTags,
   addDBTags,
   updateDBTags,

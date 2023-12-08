@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
+import moment from "moment";
+
 import { TextField, Button } from "@mui/material";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
-import { v4 as uuidv4 } from "uuid";
 
 import FormNoteTags from "./FormNoteTags";
-import { addNote } from "../../features/notes/NotesSlice";
-import { parseTags } from "../../utils/highlightTags";
+import { addNote, updateSnackbar } from "../../features/notes/NotesSlice";
+import { highlightTags, parseTags } from "../../utils/highlightTags";
 
 import { Tag } from "../../models/Tag";
 
@@ -17,17 +19,24 @@ export default function NotesForm() {
 
   const dispatchAddNote = useCallback(() => {
     if (!textValue.trim()) return;
+
+    const { highlightHtml, tags } = highlightTags(textValue);
+
+    const data = {
+      id: uuidv4(),
+      text: highlightHtml,
+      tags: tags,
+      createdAt: moment().format("DD.MM.YYYY, HH:mm:ss"),
+    };
+
+    dispatch(addNote(data));
     dispatch(
-      addNote({
-        id: uuidv4(),
-        text: textValue,
-        tags: tags,
-        createdAt: new Date().toString(),
-      })
+      updateSnackbar({ isOpen: true, message: "Заметка успешно добавлена!" })
     );
+
     setTextValue("");
     setTags([]);
-  }, [dispatch, tags, textValue]);
+  }, [dispatch, textValue]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {

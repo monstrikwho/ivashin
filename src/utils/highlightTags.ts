@@ -1,17 +1,16 @@
 import { Tag } from "../models/Tag";
 
-// при редактировании не переходит на новую строку
-// отредактировать регулярки
-
 export const highlightTags = (text: string) => {
-  let cleanText: string = text.replace(/<("[^"]*"|'[^']*'|[^'">])*>/gm, "");
+  let cleanText: string = text
+    .replace(/<(span|\/span)("[^"]*"|'[^']*'|[^'">])*>/gm, "")
+    .replace(/[\r\n]+/gm, "<br>");
 
   const tags = parseTags(cleanText);
 
   for (let tag of tags) {
     cleanText = cleanText.replace(
-      ` #${tag.name}`,
-      ` <span class="highlight">#${tag.name}</span>`
+      `#${tag.name}`,
+      `<span class="highlight">#${tag.name}</span>`
     );
   }
 
@@ -19,7 +18,7 @@ export const highlightTags = (text: string) => {
 };
 
 export const parseTags = (text: string) => {
-  const matches: string[] = text.match(/(?<=\s#)\w+/gm) || [];
+  const matches: string[] = text.match(/((?<=\s#)|(?<=>#))\w+/gm) || [];
   const tags: Tag[] = matches.map((item) => ({
     name: item,
     count: 1,

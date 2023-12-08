@@ -1,20 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import { RootState } from "../../store";
-import { Note } from "../../models/Note";
-import { Tag } from "../../models/Tag";
+import { Note, Tag, DBData, Snackbar } from "../../models";
+
 import {
-  getAllDB,
-  getDBNotes,
   addDBNotes,
   updateDBNotes,
   deleteDBNotes,
-  getDBActiveTags,
-  updateDBActiveTags,
-  getDBTags,
+  addDBActiveTags,
+  deleteDBActiveTags,
   addDBTags,
   updateDBTags,
   deleteDBTags,
 } from "../../services/database";
+import sortByTime from "../../utils/sortByTime";
 
 export interface NotesState {
   list: Note[];
@@ -24,14 +23,7 @@ export interface NotesState {
       [key: string]: Tag;
     };
   };
-}
-
-interface DBData {
-  notes: Note[];
-  tags: Tag[];
-  activeTags: {
-    name: string;
-  }[];
+  snackbar: Snackbar;
 }
 
 const initialState: NotesState = {
@@ -39,6 +31,10 @@ const initialState: NotesState = {
   tags: {
     active: [],
     list: {},
+  },
+  snackbar: {
+    isOpen: false,
+    message: "",
   },
 };
 
@@ -64,19 +60,31 @@ const notesSlice = createSlice({
         (item) => item.id === action.payload.id
       );
 
-      // updateDBNotes(action.payload, state.list[index].tags);
+      // Создал новый копию массива с тегами иначе прокидывался нулевой объект
+      // Прокидывал state.list[index].tags
+      // Cannot perform 'get' on a proxy that has been revoked
+      // TypeError: Cannot perform 'get' on a proxy that has been revoked at updateDBNotes
+      const latestTags: Tag[] = [];
 
       for (let tag of state.list[index].tags) {
         if (state.tags.list[tag.name]) {
           if (state.tags.list[tag.name].count === 1) {
             delete state.tags.list[tag.name];
             state.tags.active = state.tags.active.filter(
-              (item) => item === tag.name
+              (item) => item !== tag.name
             );
+            deleteDBActiveTags(tag.name);
+            deleteDBTags(tag);
           } else {
             state.tags.list[tag.name].count--;
+            updateDBTags(tag);
           }
         }
+        latestTags.push({
+          name: tag.name,
+          count: tag.count,
+          color: tag.color,
+        });
       }
 
       for (let tag of action.payload.tags) {
@@ -84,6 +92,8 @@ const notesSlice = createSlice({
           ? state.tags.list[tag.name].count++
           : (state.tags.list[tag.name] = tag);
       }
+
+      updateDBNotes(action.payload, latestTags);
 
       state.list[index] = action.payload;
     },
@@ -97,9 +107,9 @@ const notesSlice = createSlice({
           if (state.tags.list[tag.name].count === 1) {
             delete state.tags.list[tag.name];
             state.tags.active = state.tags.active.filter(
-              (item) => item === tag.name
+              (item) => item !== tag.name
             );
-            // Обновить активные теги в ДБ
+            deleteDBActiveTags(tag.name);
             deleteDBTags(tag);
           } else {
             state.tags.list[tag.name].count--;
@@ -115,14 +125,16 @@ const notesSlice = createSlice({
       const index = state.tags.active.indexOf(action.payload);
       if (index === -1) {
         state.tags.active.push(action.payload);
+        addDBActiveTags(action.payload);
       } else {
         state.tags.active.splice(index, 1);
+        deleteDBActiveTags(action.payload);
       }
-      updateDBActiveTags(action.payload);
     },
     insertDB: (state: NotesState, action: PayloadAction<DBData>) => {
       // инициализирую заметки
-      state.list = action.payload.notes;
+      const notes = sortByTime(action.payload.notes);
+      state.list = notes;
 
       // инициализирую теги
       const tagList: { [key: string]: Tag } = {};
@@ -137,11 +149,20 @@ const notesSlice = createSlice({
       // инициализирую активные теги
       state.tags.active = action.payload.activeTags.map((item) => item.name);
     },
+    updateSnackbar: (state: NotesState, action: PayloadAction<Snackbar>) => {
+      state.snackbar = { ...action.payload };
+    },
   },
 });
 
-export const { addNote, updateNote, deleteNote, addFilters, insertDB } =
-  notesSlice.actions;
+export const {
+  addNote,
+  updateNote,
+  deleteNote,
+  addFilters,
+  insertDB,
+  updateSnackbar,
+} = notesSlice.actions;
 
 export const notesSelector = (state: RootState) => {
   return state.notes;

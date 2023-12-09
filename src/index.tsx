@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 
 import App from "./App";
 import { store } from "./store";
+import { ThemeContextProvider } from "./store/themeContext";
 
 import "./styles/main.sass";
 
@@ -12,6 +13,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <Provider store={store}>
-    <App />
+    <ThemeContextProvider>
+      <App />
+    </ThemeContextProvider>
   </Provider>
 );

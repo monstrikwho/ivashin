@@ -7,7 +7,44 @@
   outline: none
 
 html
-  background-color: #FAFAFA
+  --primaryColor: #ee384e
+  --secondaryColor: #76A5EA
+
+  --highlight-color: #D58D49
+  --highlight-bgc: rgba(223, 168, 116, 0.20)
+
+  --bgc: #fff
+  --text-color: #424750
+  --notes-bgc: #F5F5F5
+  --notes-item-bgc: #fff
+  --notes-text-color: #000
+  --key-cups: #5030E533
+  --tag-active-bgc: rgb(40 40 40)
+
+  --scrollbar-track-bgc: rgb(125 125 125)
+  --scrollbar-thumb-bgc: rgb(40 40 40)
+
+  --fieldset-border: #aaa
+
+html[theme="dark"]
+  --secondaryColor: #95A4FC
+
+  --bgc: #1C1C1C
+  --text-color: #ebebeb
+  --notes-bgc: #FFFFFF0D
+  --notes-item-bgc: #FFFFFF0D
+  --notes-text-color: #aaa
+  --key-cups: #ebebeb
+  --tag-active-bgc: #FFFFFF0D
+
+  --scrollbar-track-bgc: #FFFFFF1A
+  --scrollbar-thumb-bgc: #C6C7F8
+
+  --fieldset-border: #FFFFFF0D
+
+body
+  background-color: var(--bgc)
+  transition: all 0.3s ease-in-out
 
 li
   list-style: none
@@ -15,34 +52,9 @@ li
 .pageTitle
   margin-top: 80px
   font-size: 48px
+  user-select: none
+  color: var(--text-color)
 
-form
-  margin-top: 40px
-  display: flex
-  flex-direction: column
-
-  .tags
-    margin-top: 15px
-    display: flex
-    .tag
-      margin-right: 8px
-      padding: 4px 8px
-      font-size: 14px
-      background: #5030E533
-      border-radius: 6px
-
-.actions
-  margin-top: 20px
-  .keys-cups
-    margin-left: 8px
-    padding: 2px 4px
-    display: flex
-    align-items: center
-    font-size: 8px
-    background: #5030E533
-    border-radius: 4px
-    color: #000
-    svg
-      font-size: 10px
-    @media screen and (max-width: 576px)
-      display: none
+.theme-button
+  display: inline-block
+  cursor: pointer

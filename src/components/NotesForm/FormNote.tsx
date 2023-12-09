@@ -6,6 +6,7 @@ import moment from "moment";
 import { TextField, Button } from "@mui/material";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
+import "./FormNote.sass";
 import FormNoteTags from "./FormNoteTags";
 import { addNote, updateSnackbar } from "../../features/notes/NotesSlice";
 import { highlightTags, parseTags } from "../../utils/highlightTags";

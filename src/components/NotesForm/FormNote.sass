@@ -1,0 +1,43 @@
+form
+  margin-top: 40px
+  display: flex
+  flex-direction: column
+  .tags
+    margin-top: 15px
+    display: flex
+    .tag
+      margin-right: 8px
+      padding: 4px 8px
+      font-size: 14px
+      background: #5030E533
+      border-radius: 6px
+  .actions
+    margin-top: 20px
+    button
+      color: var(--secondaryColor)
+      &:disabled,
+      &[disabled]
+        color: #aaa
+    .keys-cups
+      margin-left: 8px
+      padding: 2px 4px
+      display: flex
+      align-items: center
+      font-size: 8px
+      background: var(--key-cups)
+      border-radius: 4px
+      color: #000
+      svg
+        font-size: 10px
+      @media screen and (max-width: 576px)
+        display: none
+  label, textarea
+    color: var(--text-color) !important
+    
+
+  .MuiInputBase-root
+    fieldset
+      border-color: var(--fieldset-border) !important
+    &:hover
+      fieldset
+        border-color: #1976d2 !important

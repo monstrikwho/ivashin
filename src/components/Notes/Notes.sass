@@ -2,18 +2,20 @@
   padding: 20px 15px
   margin-top: 40px
   border-radius: 12px
-  background-color: #DDF2F3
+  background-color: var(--notes-bgc)
 
   .title
     font-size: 20px
+    color: var(--text-color)
 
   .filter-tags
     display: flex
-    padding: .75rem 1rem
+    padding: .75rem 0
     margin: 1.25rem 0
     overflow-x: auto
+    user-select: none
     .tags-item
-      padding: 0 .5rem
+      padding: 0 .4rem
       margin-right: 8px
       color: #000
       white-space: nowrap
@@ -21,9 +23,10 @@
       align-items: center
       line-height: 1.5rem
       font-size: .75rem
-      background: linear-gradient(0deg, #F5F5F5 0%, #F5F5F5 100%), #8CB3FF
+      background: #E0E0E0
       border-radius: 9999px
       cursor: pointer
+      transition: all 0.3s ease-in-out
       .counter
         margin-left: .25rem
         color: rgb(38, 38, 38)
@@ -33,22 +36,22 @@
         border-radius: 9999px
     .active
       color: #eff1f6bf
-      background: rgb(40, 40, 40)
+      background: var(--tag-active-bgc)
     &::-webkit-scrollbar
       height: .5rem
     &::-webkit-scrollbar-track
-      background-color: rgb(125 125 125)
+      background-color: var(--scrollbar-track-bgc)
       border-radius: 100vw
     &::-webkit-scrollbar-thumb
       height: 2px
-      background-color: rgb(40 40 40)
+      background-color: var(--scrollbar-thumb-bgc)
       border-radius: 100vw
 
   .notes-item
     position: relative
     padding: 20px
     margin-bottom: 20px
-    background-color: #fff
+    background-color: var(--notes-item-bgc)
     border-radius: 12px
     .del-button
       display: block
@@ -56,24 +59,30 @@
       top: 10px
       right: 10px
       font-size: 12px
+      button
+        color: var(--secondaryColor)
     .content-editable
       padding: 4px 0
       font-size: 18px
+      line-height: 28px
+      color: var(--notes-text-color)
+      border-bottom: 1px solid transparent
       &:focus
-        border-bottom: 1px solid #000
+        border-bottom: 1px solid var(--notes-text-color)
     .highlight
-      padding: 0 4px
-      background: rgba(223, 168, 116, 0.4)
+      padding: 2px 4px
+      color: var(--highlight-color)
+      background: var(--highlight-bgc)
       border-radius: 4px
     .note-tags
       margin-bottom: 12px
       .tag
         padding: 4px 6px
         margin-right: 8px
-        color: #D58D49
+        color: var(--highlight-color)
         font-size: 12px
         font-weight: 500
-        background: rgba(223, 168, 116, 0.20)
+        background: var(--highlight-bgc)
         border-radius: 4px
 
   .notes-empty
